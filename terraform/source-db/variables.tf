@@ -55,5 +55,5 @@ variable "vpc_tags" {
 variable "ami" {
   description = "The AMI you wish to use in your EC2"
   type        = string
-  default = "ami-0dacb0c129b49f529"
+  default = "ami-0dacb0c129b49f529" 
 }

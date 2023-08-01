@@ -2,7 +2,7 @@
 
 A lab working with [AWS DMS (Data Migration Service)](https://aws.amazon.com/dms/?nc=sn&loc=1)
 
-## Objective
+## Objectives
 
 To be able to simulate test and experience an AWS DMS migration of data from one database in a network to another database in a disparate network.
 
@@ -11,7 +11,7 @@ This is to demonstrate and experience a DB migration from an on-prem databases i
 ## Architecture
 
 ```text
-      Source VPC                                                                       Destination VPC
+      Source VPC ("on-prem")                                                                      Destination VPC
 ┌───────────────────────────────────────────────────────┐                     ┌──────────────────────────────────────────────────────────────┐
 │                                                       │                     │                                                              │
 │   ┌─────────────────────────────────────────────┐     │                     │     ┌────────────────────────────────────────────────────┐   │
@@ -22,17 +22,17 @@ This is to demonstrate and experience a DB migration from an on-prem databases i
 │   │     │         ├─────────────────────────────┼─────┼─────────────────────┼─────┼─► │           │                                    │   │
 │   │     │         │                             │     │                     │     │   │           │                                    │   │
 │   │     └─────────┘                             │     │                     │     │   └───────────┤                                    │   │
-│   │          ▲                                  │     │                     │     │               ┼──────┐                             │   │
+│   │          ▲                                  │     │                     │     │               └──────┐                             │   │
 │   └──────────┬──────────────────────────────────┘     │                     │     └──────────────────────┼─────────────────────────────┘   │
 │              │                                        │                     │                            │                                 │
 │              │                                        │                     │                            │                                 │
 │              │                                        │                     │                            │                                 │
 │              │                                        │                     │                            │                                 │
 │   ┌──────────┼───────────────────────────────────┐    │                     │     ┌──────────────────────┼─────────────────────────────┐   │
-│   │     pvt d│ subnet                            │    │                     │     │     pvt db subnet    │                             │   │
+│   │     pvt db subnet                            │    │                     │     │     pvt db subnet    │                             │   │
 │   │          │                                   │    │                     │     │                      ▼                             │   │
 │   │      ┌───┴──────────┐                        │    │                     │     │         ┌──────────────┐                           │   │
-│   │      │              │ EC2 w/ MySQL (docker)  │    │                     │     │         │              │ Aurora MySQL              │   │
+│   │      │              │ EC2 w/ MySQL (Docker)  │    │                     │     │         │              │ RDS MySQL                 │   │
 │   │      │              │                        │    │                     │     │         │              │                           │   │
 │   │      │              │                        │    │                     │     │         │              │                           │   │
 │   │      └──────────────┘                        │    │                     │     │         │              │                           │   │
@@ -49,9 +49,9 @@ This is to demonstrate and experience a DB migration from an on-prem databases i
 
 ### Improvements
 
-- [ ] make source network use a private network and reverse shell/tunnel into destination network - this would be considered more secure. In real life we'll probably use a VPC peer or a AWS Site-to-Site tunnel.
+- [ ] Make source network use a private network and reverse shell/tunnel into destination network - this would be considered more secure. In real life we'll probably use a VPC peer or a AWS Site-to-Site tunnel.
 - [ ] Do a schema conversion while in flight using AWS DMS Schema conversion
-  - [ ] Tweak the schema
+  - [ ] Tweak the schema, keep the DBMS the same
   - [ ] Have the source db and target db be different DBMSs
 - [ ] Experiment with fleet advisor and several databases
 - [ ] Try DMS serverless
@@ -59,7 +59,7 @@ This is to demonstrate and experience a DB migration from an on-prem databases i
 
 ## Todo
 
-- [ ] create arch diagram
+- [x] create arch diagram
 - [ ] create source VPC
 - [ ] create destination VPC
 - [ ] create source RDS and dest RDS
