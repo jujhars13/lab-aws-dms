@@ -42,6 +42,24 @@ data "aws_ami" "amazon_linux_2" {
   owners = ["137112412989"] # amazon
 }
 
+# Allow all outbound connections
+resource "aws_security_group" "bastion" {
+  vpc_id      = module.vpc.id
+  name        = "bastion"
+  description = "Security group for bastion"
+
+}
+
+resource "aws_security_group_rule" "bastion-egresss" {
+  type              = "egress"
+  to_port           = 0
+  from_port         = 0
+  protocol          = "-1"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.bastion.id
+}
+
+
 module "ec2_instances" {
   source  = "terraform-aws-modules/ec2-instance/aws"
   version = "4.3.0"
@@ -49,13 +67,18 @@ module "ec2_instances" {
 
   name = "lab-aws-dms-bastion-host"
 
-  ami                    = data.aws_ami.amazon_linux_2
-  instance_type          = var.ec2_instance_type
-  vpc_security_group_ids = [module.vpc.default_security_group_id]
-  subnet_id              = module.vpc.public_subnets[0]
+  ami                         = aws_ami.amazon_linux_2
+  instance_type               = var.ec2_instance_type
+  vpc_security_group_ids      = [aws_security_group.aws_security_group.bastion.id]
+  subnet_id                   = module.vpc.public_subnets[0]
+  associate_public_ip_address = true
 
   tags = {
     Terraform   = "true"
     Environment = "dev"
+  }
+
+  provisioner "remote-exec" {
+    script = "${path.module}/provision-source-bastion.sh"
   }
 }

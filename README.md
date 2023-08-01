@@ -47,10 +47,21 @@ This is to demonstrate and experience a DB migration from an on-prem databases i
 - AWS
 - Terraform > `v1.5`
 
+## Proj structure
+
+```bash
+.
+└── terraform
+    ├── destination-db
+    └── source-db
+        ├── 01-state-store
+        └── 02-base-infra
+```
+
 ## Getting started
 
 ```bash
-cd terraform\source-db
+cd terraform\02-base-infra\source-db
 
 terraform init
 terraform plan
