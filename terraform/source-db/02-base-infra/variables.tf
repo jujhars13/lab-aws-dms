@@ -52,11 +52,6 @@ variable "vpc_tags" {
   }
 }
 
-variable "ec2_ami" {
-  description = "The AMI you wish to use in your EC2"
-  type        = string
-  default     = "ami-0dacb0c129b49f529"
-}
 
 variable "ec2_instance_type" {
   description = "The EC2 type you want"

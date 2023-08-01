@@ -25,14 +25,31 @@ module "vpc" {
   tags = var.vpc_tags
 }
 
+// get latest x86 AMI
+data "aws_ami" "amazon_linux_2" {
+  most_recent = true
+
+  filter {
+    name   = "name"
+    values = ["amzn2-ami-hvm*"]
+  }
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+
+  owners = ["137112412989"] # amazon
+}
+
 module "ec2_instances" {
   source  = "terraform-aws-modules/ec2-instance/aws"
   version = "4.3.0"
-  count   = 2
+  count   = 1
 
-  name = "my-ec2-cluster"
+  name = "lab-aws-dms-bastion-host"
 
-  ami                    = var.ec2_ami
+  ami                    = data.aws_ami.amazon_linux_2
   instance_type          = var.ec2_instance_type
   vpc_security_group_ids = [module.vpc.default_security_group_id]
   subnet_id              = module.vpc.public_subnets[0]
