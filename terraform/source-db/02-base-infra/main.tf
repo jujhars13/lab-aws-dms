@@ -1,5 +1,4 @@
 provider "aws" {
-  //profile = "tw-core-beach"
   region = var.region
 
   default_tags {
@@ -7,26 +6,6 @@ provider "aws" {
       user        = "jujhar.singh@thoughtworks.com"
       application = "dms-lab-source"
     }
-  }
-}
-
-resource "aws_s3_bucket" "terraform_state" {
-  bucket = "tf-state-dms-lab-source"
-
-  versioning {
-    enabled = true
-  }
-}
-
-resource "aws_dynamodb_table" "terraform_state_lock" {
-  name           = "tf-state-dms-lab-source"
-  read_capacity  = 1
-  write_capacity = 1
-  hash_key       = "LockID"
-
-  attribute {
-    name = "LockID"
-    type = "S"
   }
 }
 
