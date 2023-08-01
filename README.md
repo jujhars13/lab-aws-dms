@@ -47,6 +47,20 @@ This is to demonstrate and experience a DB migration from an on-prem databases i
 - AWS
 - Terraform > `v1.5`
 
+## Getting started
+
+```bash
+cd terraform\source-db
+
+terraform init
+terraform plan
+terraform apply
+
+# to destroy
+terraform destroy
+
+```
+
 ### Improvements
 
 - [ ] Make source network use a private network and reverse shell/tunnel into destination network - this would be considered more secure. In real life we'll probably use a VPC peer or a AWS Site-to-Site tunnel.
