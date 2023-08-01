@@ -13,5 +13,6 @@ terraform {
     region         = "eu-west-1"
     dynamodb_table = "tf-state-lock-dms-lab-source"
     key            = "base/terraform.tfstate"
+    encrypt        = true
   }
 }
