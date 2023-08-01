@@ -1,6 +1,6 @@
 # Lab AWS DMS
 
-A lab to work with AWS DMS (Data Migration Service)
+A lab working with [AWS DMS (Data Migration Service)](https://aws.amazon.com/dms/?nc=sn&loc=1)
 
 ## Objective
 
@@ -41,6 +41,11 @@ This is to demonstrate and experience a DB migration from an on-prem databases i
 │                                                       │                     │                                                              │
 └───────────────────────────────────────────────────────┘                     └──────────────────────────────────────────────────────────────┘
 ```
+
+## Requirements
+
+- AWS
+- Terraform > `v1.5`
 
 ### Improvements
 
