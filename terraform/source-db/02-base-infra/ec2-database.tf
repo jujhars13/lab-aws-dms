@@ -15,6 +15,15 @@ resource "aws_security_group_rule" "database-egresss" {
   security_group_id = aws_security_group.database.id
 }
 
+resource "aws_security_group_rule" "database-ingress" {
+  type              = "ingress"
+  to_port           = 3306
+  from_port         = 3306
+  protocol          = "tcp"
+  cidr_blocks       = module.vpc.vpc_cidr
+  security_group_id = aws_security_group.database.id
+}
+
 resource "aws_iam_role" "database-instance-iam-role" {
   name               = "database-instance-role"
   description        = "The assume role for the bastion EC2"
