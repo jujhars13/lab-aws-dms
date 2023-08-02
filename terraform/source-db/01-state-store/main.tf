@@ -43,12 +43,13 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "default" {
   }
 }
 
+// in case you have to delete manually:
+// AWS_DEFAULT_REGION=eu-west-1 aws dynamodb delete-table --table-name tf-state-lock-dms-lab-source
 resource "aws_dynamodb_table" "terraform_state_lock" {
   name           = "tf-state-lock-dms-lab-source"
   hash_key       = "LockID"
   read_capacity  = 1
   write_capacity = 1
-
 
   attribute {
     name = "LockID"

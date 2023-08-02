@@ -8,3 +8,5 @@ else
   sudo usermod -a -G docker ec2-user
   sudo service docker start
 fi
+
+yum install -y mariadb netcat htop vim tmux
