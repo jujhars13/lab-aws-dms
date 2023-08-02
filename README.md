@@ -94,8 +94,9 @@ vagrant destroy -f && vagrant up
 ## Todo
 
 - [x] create arch diagram
-- [ ] create source VPC
+- [x] create source VPC
 - [ ] create destination VPC
-- [ ] create source RDS and dest RDS
-- [ ] populate source RDS with some data
+- [x] create source db
+- [ ] create target RDS
+- [x] populate source RDS with some data
 - [ ] ClickOps a database migration
