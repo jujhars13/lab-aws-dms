@@ -72,6 +72,15 @@ terraform destroy
 
 ```
 
+To test bash scripts in a Vagrant VM:
+
+```bash
+# AWS Linux
+vagrant destroy -f && vagrant up
+
+
+```
+
 ### Improvements
 
 - [ ] Make source network use a private network and reverse shell/tunnel into destination network - this would be considered more secure. In real life we'll probably use a VPC peer or a AWS Site-to-Site tunnel.
