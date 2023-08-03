@@ -13,4 +13,5 @@ project_tags = {
   User        = "jujhar.singh@thoughtworks.com"
   Application = "dms-lab-source"
   Target      = "source"
+  State       = "s3://tf-state-dms-lab-source"
 }
