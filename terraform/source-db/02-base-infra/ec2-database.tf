@@ -2,7 +2,7 @@
 # Allow all outbound connections
 resource "aws_security_group" "database" {
   vpc_id      = module.vpc.vpc_id
-  name        = "${var.prefix}-bastion"
+  name        = "${var.prefix}-database"
   description = "Security group for db instance"
   tags        = var.project_tags
 }
@@ -26,7 +26,7 @@ resource "aws_security_group_rule" "database-ingress" {
 }
 
 resource "aws_iam_role" "database-instance-iam-role" {
-  name               = "${var.prefix}-database-bastion"
+  name               = "${var.prefix}-ec2-database"
   description        = "The assume role for the db EC2"
   tags               = var.project_tags
   assume_role_policy = <<EOF
