@@ -72,12 +72,11 @@ terraform destroy
 
 ```
 
-To test bash scripts in a Vagrant VM:
+To test bash scripts in an Amazon Linux VM locally, we use Vagrant:
 
 ```bash
-# AWS Linux
+# AWS Linux, the `/vagrant` directory will have this dir mounted to it
 vagrant destroy -f && vagrant up
-
 
 ```
 

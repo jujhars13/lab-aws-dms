@@ -55,7 +55,7 @@ module "ec2_instances_db" {
   version = "4.3.0"
   count   = 1
 
-  name = "lab-aws-dms-database"
+  name = "lab-aws-dms-source-database"
 
   ami                    = data.aws_ami.amazon_linux_2.id
   instance_type          = var.ec2_instance_type

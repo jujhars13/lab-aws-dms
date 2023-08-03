@@ -9,4 +9,10 @@ else
   sudo service docker start
 fi
 
-yum install -y mariadb netcat htop vim tmux
+yum install -y mariadb \
+  htop \
+  vim \
+  tmux \
+  unzip \
+  nmap-ncat \
+  git

@@ -48,7 +48,7 @@ module "ec2_instances" {
   version = "4.3.0"
   count   = 1
 
-  name = "lab-aws-dms-source-bastion-host"
+  name = "lab-aws-dms-destiation-bastion-host"
 
   ami                         = data.aws_ami.amazon_linux_2.id
   instance_type               = var.ec2_instance_type
