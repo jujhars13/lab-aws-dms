@@ -9,9 +9,9 @@ terraform {
   // chicken and egg - provision state bucket first
 
   backend "s3" {
-    bucket         = "tf-state-dms-lab-source"
+    bucket         = "tf-state-dms-lab-destination"
     region         = "eu-west-1"
-    dynamodb_table = "tf-state-lock-dms-lab-source"
+    dynamodb_table = "tf-state-lock-dms-lab-destination"
     key            = "base/terraform.tfstate"
     encrypt        = true
   }

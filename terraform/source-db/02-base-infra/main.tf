@@ -1,19 +1,12 @@
 provider "aws" {
   region = var.region
-
-  default_tags {
-    tags = {
-      user        = "jujhar.singh@thoughtworks.com"
-      application = "dms-lab-source"
-    }
-  }
 }
 
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "3.18.1"
 
-  name = var.vpc_name
+  name = var.prefix
   cidr = var.vpc_cidr
 
   azs             = var.vpc_azs
@@ -22,7 +15,7 @@ module "vpc" {
 
   enable_nat_gateway = var.vpc_enable_nat_gateway
 
-  tags = var.vpc_tags
+  tags = var.project_tags
 }
 
 // get latest x86 AMI

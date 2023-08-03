@@ -4,8 +4,9 @@
 # Allow all outbound connections
 resource "aws_security_group" "bastion" {
   vpc_id      = module.vpc.vpc_id
-  name        = "bastion"
+  name        = "${var.prefix}-bastion"
   description = "Security group for bastion"
+  tags        = var.project_tags
 }
 
 resource "aws_security_group_rule" "bastion-egresss" {
@@ -18,8 +19,9 @@ resource "aws_security_group_rule" "bastion-egresss" {
 }
 
 resource "aws_iam_role" "bastion-instance-iam-role" {
-  name               = "bastion-instance-role"
+  name               = "${var.prefix}-ec2-bastion"
   description        = "The assume role for the bastion EC2"
+  tags               = var.project_tags
   assume_role_policy = <<EOF
     {
     "Version": "2012-10-17",
@@ -34,8 +36,9 @@ EOF
 
 // create an ec2 instance role
 resource "aws_iam_instance_profile" "bastion-iam-profile" {
-  name = "ec2_profile"
+  name = "${var.prefix}-bastion-ec2"
   role = aws_iam_role.bastion-instance-iam-role.name
+  tags = var.project_tags
 }
 
 resource "aws_iam_role_policy_attachment" "bastion-resources-ssm-policy" {
@@ -44,11 +47,11 @@ resource "aws_iam_role_policy_attachment" "bastion-resources-ssm-policy" {
 }
 
 module "ec2_instances" {
+  name = "${var.prefix}-bastion-host"
+
   source  = "terraform-aws-modules/ec2-instance/aws"
   version = "4.3.0"
   count   = 1
-
-  name = "lab-aws-dms-source-bastion-host"
 
   ami                         = data.aws_ami.amazon_linux_2.id
   instance_type               = var.ec2_instance_type
@@ -57,10 +60,7 @@ module "ec2_instances" {
   associate_public_ip_address = true
   iam_instance_profile        = aws_iam_instance_profile.bastion-iam-profile.name
 
-  tags = {
-    Terraform   = "true"
-    Environment = "dev"
-  }
+  tags = var.project_tags
 
   user_data_base64 = filebase64("${path.module}/provision-bastion.sh")
 }

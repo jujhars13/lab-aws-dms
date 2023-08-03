@@ -2,8 +2,9 @@
 # Allow all outbound connections
 resource "aws_security_group" "database" {
   vpc_id      = module.vpc.vpc_id
-  name        = "database"
+  name        = "${var.prefix}-bastion"
   description = "Security group for db instance"
+  tags        = var.project_tags
 }
 
 resource "aws_security_group_rule" "database-egresss" {
@@ -25,8 +26,9 @@ resource "aws_security_group_rule" "database-ingress" {
 }
 
 resource "aws_iam_role" "database-instance-iam-role" {
-  name               = "database-instance-role"
-  description        = "The assume role for the bastion EC2"
+  name               = "${var.prefix}-database-bastion"
+  description        = "The assume role for the db EC2"
+  tags               = var.project_tags
   assume_role_policy = <<EOF
     {
     "Version": "2012-10-17",
@@ -41,7 +43,7 @@ EOF
 
 // create an ec2 instance role
 resource "aws_iam_instance_profile" "database-iam-profile" {
-  name = "ec2_database_profile"
+  name = "${var.prefix}-database-ec2"
   role = aws_iam_role.database-instance-iam-role.name
 }
 
@@ -51,23 +53,19 @@ resource "aws_iam_role_policy_attachment" "database-resources-ssm-policy" {
 }
 
 module "ec2_instances_db" {
+  name    = "${var.prefix}-source-database"
   source  = "terraform-aws-modules/ec2-instance/aws"
   version = "4.3.0"
   count   = 1
 
-  name = "lab-aws-dms-source-database"
+  ami                         = data.aws_ami.amazon_linux_2.id
+  instance_type               = var.ec2_instance_type
+  vpc_security_group_ids      = [aws_security_group.database.id]
+  subnet_id                   = module.vpc.private_subnets[0]
+  iam_instance_profile        = aws_iam_instance_profile.database-iam-profile.name
+  associate_public_ip_address = false
 
-  ami                    = data.aws_ami.amazon_linux_2.id
-  instance_type          = var.ec2_instance_type
-  vpc_security_group_ids = [aws_security_group.database.id]
-  subnet_id              = module.vpc.private_subnets[0]
-  iam_instance_profile   = aws_iam_instance_profile.database-iam-profile.name
-
-  tags = {
-    Terraform   = "true"
-    Environment = "dev"
-    Scope       = "private"
-  }
+  tags = var.project_tags
 
   user_data_base64 = filebase64("${path.module}/provision-source-database.sh")
 }

@@ -1,6 +1,11 @@
 # Copyright (c) HashiCorp, Inc.
 # SPDX-License-Identifier: MPL-2.0
 
+variable "prefix" {
+  description = "prefix to prevent namespace clashes"
+  type        = string
+  default     = "source"
+}
 variable "region" {
   description = "Region you're working in"
   type        = string
@@ -43,7 +48,7 @@ variable "vpc_enable_nat_gateway" {
   default     = true
 }
 
-variable "vpc_tags" {
+variable "project_tags" {
   description = "Tags to apply to resources created by VPC module"
   type        = map(string)
   default = {
@@ -51,7 +56,6 @@ variable "vpc_tags" {
     Environment = "dev"
   }
 }
-
 
 variable "ec2_instance_type" {
   description = "The EC2 type you want"
