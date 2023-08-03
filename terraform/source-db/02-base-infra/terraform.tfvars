@@ -12,4 +12,5 @@ project_tags = {
   Environment = "dev"
   User        = "jujhar.singh@thoughtworks.com"
   Application = "dms-lab-source"
+  Target      = "source"
 }

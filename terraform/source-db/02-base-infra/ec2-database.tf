@@ -43,8 +43,9 @@ EOF
 
 // create an ec2 instance role
 resource "aws_iam_instance_profile" "database-iam-profile" {
-  name = "${var.prefix}-database-ec2"
+  name = "${var.prefix}-database-ec2-iam_instance_profile"
   role = aws_iam_role.database-instance-iam-role.name
+  tags = var.project_tags
 }
 
 resource "aws_iam_role_policy_attachment" "database-resources-ssm-policy" {
@@ -53,7 +54,7 @@ resource "aws_iam_role_policy_attachment" "database-resources-ssm-policy" {
 }
 
 module "ec2_instances_db" {
-  name    = "${var.prefix}-source-database"
+  name    = "${var.prefix}-database"
   source  = "terraform-aws-modules/ec2-instance/aws"
   version = "4.3.0"
   count   = 1

@@ -36,7 +36,7 @@ EOF
 
 // create an ec2 instance role
 resource "aws_iam_instance_profile" "bastion-iam-profile" {
-  name = "${var.prefix}-bastion-ec2"
+  name = "${var.prefix}-bastion-ec2-iam_instance_profile"
   role = aws_iam_role.bastion-instance-iam-role.name
   tags = var.project_tags
 }
@@ -47,7 +47,7 @@ resource "aws_iam_role_policy_attachment" "bastion-resources-ssm-policy" {
 }
 
 module "ec2_instances" {
-  name = "${var.prefix}-bastion-host"
+  name = "${var.prefix}-bastion"
 
   source  = "terraform-aws-modules/ec2-instance/aws"
   version = "4.3.0"
